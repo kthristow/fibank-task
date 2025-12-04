@@ -1,73 +1,150 @@
-# React + TypeScript + Vite
+# Fibank Task - Star Wars Characters App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React application built with TypeScript, Vite, and Tailwind CSS that displays Star Wars characters from the SWAPI API with authentication, pagination, caching, and offline support.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Authentication System**: Session-based authentication with protected routes
+- **Form Validation**: React Hook Form with Zod schema validation
+- **Data Fetching**: SWAPI integration for Star Wars character data
+- **Pagination**: Navigate through paginated character lists
+- **Caching**: LocalStorage-based caching (5-minute TTL) to reduce API calls
+- **Offline Detection**: Graceful handling of network failures with user feedback
+- **Responsive Design**: Mobile-first design with Tailwind CSS
+- **Type Safety**: Full TypeScript coverage with strict mode enabled
+- **Code Quality**: ESLint configuration with React and TypeScript rules
 
-## React Compiler
+## 📦 Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19.2** - UI framework
+- **TypeScript 5.9** - Type safety
+- **Vite 7.2** - Build tool and dev server
+- **React Router DOM 7.10** - Client-side routing
+- **Tailwind CSS 3.4** - Utility-first styling
+- **React Hook Form 7.67** - Form state management
+- **Zod 4.1** - Schema validation
+- **ESLint** - Code linting
 
-## Expanding the ESLint configuration
+## 🏗️ Project Structure
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── api/
+│   └── api.ts                    # SWAPI API integration
+├── assets/
+│   └── offline.png               # Offline state illustration
+├── components/
+│   ├── common/
+│   │   ├── Alert.tsx            # Reusable alert component
+│   │   ├── Modal.tsx            # Modal dialog component
+│   │   └── Spinner.tsx          # Loading spinner
+│   ├── LoginForm.tsx            # Login form with validation
+│   ├── Pagination.tsx           # Pagination controls
+│   ├── PeopleTable.tsx          # Character data table
+│   └── ProtectedRoute.tsx       # Route authentication guard
+├── context/
+│   ├── AuthContext.tsx          # Authentication provider
+│   └── AuthContextDefinition.tsx # Auth context types
+├── hooks/
+│   ├── useAuth.ts               # Authentication hook
+│   └── usePeopleTable.tsx       # Table data management hook
+├── lib/
+│   ├── cache.ts                 # LocalStorage cache utilities
+│   └── validation.ts            # Zod validation schemas
+├── pages/
+│   ├── LoginPage.tsx            # Login page
+│   └── PeopleTablePage.tsx      # Main table page
+├── App.tsx                       # Root component with routing
+├── main.tsx                      # Application entry point
+└── index.css                     # Tailwind directives & global styles
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Installation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+# Clone the repository
+git clone <repository-url>
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Navigate to project directory
+cd fibank-task
+
+# Install dependencies
+npm install
 ```
+
+## 🚀 Development
+
+```bash
+# Start development server
+npm run dev
+
+# The app will be available at http://localhost:5173
+```
+
+## 🏭 Build
+
+```bash
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+## 🧹 Linting
+
+```bash
+# Run ESLint
+npm run lint
+```
+
+## 📝 Usage
+
+1. **Login**: Enter any username and password (minimum 4 characters, maximum 30 characters)
+2. **Browse Characters**: View paginated Star Wars character data
+3. **Navigation**: Use Previous/Next buttons to navigate between pages
+4. **Caching**: Data is automatically cached for 5 minutes to improve performance
+5. **Offline Mode**: Try disconnecting your network - the app will display an offline modal
+6. **Logout**: Click the logout button to end your session
+
+## 🔑 Key Implementation Details
+
+### Authentication
+
+- Session-based authentication using `sessionStorage`
+- Protected routes redirect unauthenticated users to login
+- Auth state persists across page refreshes
+
+### Caching Strategy
+
+- 5-minute TTL for cached API responses
+- Per-page caching using unique cache keys
+- Automatic cache invalidation on expiry
+
+### Form Validation
+
+- Zod schemas for type-safe validation
+- Real-time validation feedback
+- Username and password: 4-30 characters
+
+### Offline Handling
+
+- Network status detection
+- User-friendly offline modal with retry option
+- Graceful degradation when API is unavailable
+
+## 🎨 Styling
+
+The application uses Tailwind CSS with a slate color palette:
+
+- Background: `slate-50` to `slate-100`
+- Primary text: `slate-700` to `slate-900`
+- Accent: `blue-600` for interactive elements
+
+## 📄 License
+
+Private project for Fibank task demonstration.
+
+## 👤 Author
+
+Kaloyan Hristov
